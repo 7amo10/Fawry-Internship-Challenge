@@ -64,42 +64,6 @@ javac com/fawry/ecommerce/Main.java
 java com.fawry.ecommerce.Main
 ```
 
-### Expected Output
-
-```
-=== Scenario 1: Successful checkout with mixed products ===
-** Shipment notice **
-2x Cheese       400g
-1x TV   8000g
-Total package weight 8.4kg
-
-** Checkout receipt **
-2x Cheese       200
-1x TV   5000
-1x Scratch Card 50
-----------------------
-Subtotal        5250
-Shipping        3
-Amount          5253
-Current Balance 4747
-
-=== Scenario 2: Checkout with expired product ===
-Error: Product 'Expired Cheese' is expired
-
-=== Scenario 3: Checkout with insufficient balance ===
-** Shipment notice **
-1x Expensive TV 10000g
-Total package weight 10.0kg
-
-Error: Insufficient balance: required 20003.00, available 4747.00
-
-=== Scenario 4: Checkout with empty cart ===
-Error: Cannot checkout with an empty cart
-
-=== Scenario 5: Checkout with quantity exceeding stock ===
-Error: Not enough quantity available for TV
-```
-
 ## Design Patterns Used
 
 - **Strategy Pattern**: Different product types (expiring vs non-expiring)
@@ -116,14 +80,3 @@ The system follows a clean architecture approach with:
 - **Exception Layer**: Custom exception handling
 - **Main Application**: Demo scenarios and orchestration
 
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## License
-
-This project is part of the Fawry Internship Challenge.
