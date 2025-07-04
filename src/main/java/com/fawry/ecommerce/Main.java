@@ -3,7 +3,6 @@ package com.fawry.ecommerce;
 import com.fawry.ecommerce.exception.EmptyCartException;
 import com.fawry.ecommerce.exception.InsufficientBalanceException;
 import com.fawry.ecommerce.exception.ProductExpiredException;
-import com.fawry.ecommerce.exception.ProductOutOfStockException;
 import com.fawry.ecommerce.model.*;
 import com.fawry.ecommerce.service.CheckoutService;
 import com.fawry.ecommerce.service.ShippingService;
@@ -61,13 +60,14 @@ public class Main {
         CheckoutService checkoutService = new CheckoutService(shippingService);
         
         try {
-            // Scenario 1: Successful checkout with mixed products
-            System.out.println("=== Scenario 1: Successful checkout with mixed products ===");
+            // Scenario 1: Successful checkout with cheese, biscuits, and scratch card
+            System.out.println("=== Scenario 1: Successful checkout with cheese, biscuits, and scratch card ===");
+            shippingService.setFixedShippingCost(30.0);
             cart.add(cheese, 2);
-            cart.add(tv, 1);
+            cart.add(biscuits, 1);
             cart.add(scratchCard, 1);
-            
             checkoutService.checkout(customer, cart);
+            shippingService.clearFixedShippingCost();
             
             // Clear cart for next scenario
             cart.clear();

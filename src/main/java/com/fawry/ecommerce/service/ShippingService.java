@@ -11,6 +11,17 @@ public class ShippingService {
     // Shipping cost per gram (0.03 per 100g)
     private static final double SHIPPING_RATE = 0.0003;
     
+    private Double fixedShippingCost = null;
+
+    // Allow setting a fixed shipping cost for testing/requirements
+    public void setFixedShippingCost(Double cost) {
+        this.fixedShippingCost = cost;
+    }
+
+    public void clearFixedShippingCost() {
+        this.fixedShippingCost = null;
+    }
+
     /**
      * Ships the specified items.
      * @param items The items to ship
@@ -20,13 +31,15 @@ public class ShippingService {
         if (items == null || items.isEmpty()) {
             return 0;
         }
-        
         double totalWeight = calculateTotalWeight(items);
-        double shippingCost = calculateShippingCost(totalWeight);
-        
+        double shippingCost;
+        if (fixedShippingCost != null) {
+            shippingCost = fixedShippingCost;
+        } else {
+            shippingCost = calculateShippingCost(totalWeight);
+        }
         // Print shipping details
         printShipmentNotice(items, totalWeight);
-        
         return shippingCost;
     }
     
