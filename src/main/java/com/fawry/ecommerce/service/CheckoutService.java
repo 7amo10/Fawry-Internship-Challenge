@@ -31,36 +31,23 @@ public class CheckoutService {
     public void checkout(Customer customer, Cart cart) throws EmptyCartException, 
             ProductOutOfStockException, ProductExpiredException, InsufficientBalanceException {
         
-        // Check if cart is empty
-        if (cart.isEmpty()) {
-            throw new EmptyCartException();
-        }
+        if (cart.isEmpty()) throw new EmptyCartException();
         
-        // Validate products
         validateProducts(cart);
         
-        // Calculate subtotal
         double subtotal = cart.getSubtotal();
         
-        // Process shipping for applicable items
         List<Shippable> shippableItems = getShippableItems(cart);
         double shippingCost = shippingService.ship(shippableItems);
         
-        // Calculate total amount
         double totalAmount = subtotal + shippingCost;
         
-        // Check if customer has sufficient balance
-        if (!customer.hasSufficientBalance(totalAmount)) {
-            throw new InsufficientBalanceException(totalAmount, customer.getBalance());
-        }
+        if (!customer.hasSufficientBalance(totalAmount)) throw new InsufficientBalanceException(totalAmount, customer.getBalance());
         
-        // Process payment
         customer.deductBalance(totalAmount);
         
-        // Update product quantities
         updateProductQuantities(cart);
         
-        // Print receipt
         printReceipt(cart, subtotal, shippingCost, totalAmount, customer);
     }
     
@@ -75,15 +62,9 @@ public class CheckoutService {
             Product product = item.getProduct();
             int quantity = item.getQuantity();
             
-            // Check if product is expired
-            if (product.isExpired()) {
-                throw new ProductExpiredException(product);
-            }
+            if (product.isExpired()) throw new ProductExpiredException(product);
             
-            // Check if product is available in the requested quantity
-            if (!product.isAvailable(quantity)) {
-                throw new ProductOutOfStockException(product, quantity);
-            }
+            if (!product.isAvailable(quantity)) throw new ProductOutOfStockException(product, quantity);
         }
     }
     

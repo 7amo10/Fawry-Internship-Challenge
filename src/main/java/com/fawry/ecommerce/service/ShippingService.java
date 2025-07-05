@@ -32,12 +32,7 @@ public class ShippingService {
             return 0;
         }
         double totalWeight = calculateTotalWeight(items);
-        double shippingCost;
-        if (fixedShippingCost != null) {
-            shippingCost = fixedShippingCost;
-        } else {
-            shippingCost = calculateShippingCost(totalWeight);
-        }
+        double shippingCost = (fixedShippingCost != null) ? fixedShippingCost : calculateShippingCost(totalWeight);
         // Print shipping details
         printShipmentNotice(items, totalWeight);
         return shippingCost;
